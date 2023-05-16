@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include <string>
 
 //==============================================================================
 /**
@@ -23,7 +24,10 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    
+    void modeMenuChanged();
+    
+    std::string filterTypes[6] = {"LPF12", "HPF12", "BPF12", "LPF24", "HPF24", "BPF24"};
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -36,11 +40,17 @@ private:
     juce::Slider sliderDrive;
     juce::Label labelDrive;
     
+    juce::Label labelFilterType { {}, "Filter Type" };
+    juce::Font textFont   { 12.0f };
+    juce::ComboBox filterTypeMenu;
+    
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentCutoff;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentReson;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentDrive;
-
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>     ;
+        
     LadderFilterBasicAudioProcessor& audioProcessor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LadderFilterBasicAudioProcessorEditor)
+    
 };

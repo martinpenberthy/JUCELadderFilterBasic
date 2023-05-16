@@ -190,7 +190,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout LadderFilterBasicAudioProces
                                                            2000.0f));
     params.add(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Resonance", 0.0f, 0.75f, 0.0f));
     params.add(std::make_unique<juce::AudioParameterFloat>("DRIVE", "Drive", 1.0f, 10.0f, 1.0f));
-
+    
+    //params.add(std::make_shared<juce::AudioParameterChoice>("TYPE", "Type", StringArray { "a", "b", "c" }, 0, attributes));
     
     return params;
 }
@@ -239,3 +240,4 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new LadderFilterBasicAudioProcessor();
 }
+

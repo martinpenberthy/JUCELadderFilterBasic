@@ -20,6 +20,20 @@ LadderFilterBasicAudioProcessorEditor::LadderFilterBasicAudioProcessorEditor (La
     addAndMakeVisible(sliderCutoff); //CUTOFF
     addAndMakeVisible(sliderReson); //RESONANCE
     addAndMakeVisible(sliderDrive); //DRIVE
+    addAndMakeVisible(labelFilterType);
+    addAndMakeVisible(filterTypeMenu);
+    
+    for(int i = 0; i < 6; i++)
+        filterTypeMenu.addItem(filterTypes[i], i);
+    
+    filterTypeMenu.onChange = [this] { modeMenuChanged(); };
+    filterTypeMenu.setSelectedId (0);
+    
+    labelFilterType.attachToComponent(&filterTypeMenu, false);
+    labelFilterType.setFont(textFont);
+    labelFilterType.setColour(juce::Label::textColourId, juce::Colours::white);
+    
+    
     
     sliderCutoff.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     sliderCutoff.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 38);
@@ -46,6 +60,9 @@ LadderFilterBasicAudioProcessorEditor::LadderFilterBasicAudioProcessorEditor (La
     sliderAttachmentReson = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RESONANCE", sliderReson);
     
     sliderAttachmentDrive = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DRIVE", sliderDrive);
+    
+    comboAttachmentFilterType = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "TYPE", comboAttachmentFilterType);
+
 }
 
 LadderFilterBasicAudioProcessorEditor::~LadderFilterBasicAudioProcessorEditor()
@@ -67,5 +84,14 @@ void LadderFilterBasicAudioProcessorEditor::resized()
     sliderCutoff.setBounds(getWidth()/2-150, getHeight()/2, 75, 200);
     sliderReson.setBounds(getWidth()/2-50, getHeight()/2, 75, 200);
     sliderDrive.setBounds(getWidth()/2+50, getHeight()/2, 75, 200);
+    filterTypeMenu.setBounds(getWidth()/2, getHeight() - 100, 75, 200);
 }
 
+void LadderFilterBasicAudioProcessorEditor::modeMenuChanged()
+{
+    /*switch (filterTypeMenu.getSelectedId())
+    {
+        
+    }
+*/
+}
