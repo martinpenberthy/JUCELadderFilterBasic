@@ -24,10 +24,10 @@ LadderFilterBasicAudioProcessorEditor::LadderFilterBasicAudioProcessorEditor (La
     addAndMakeVisible(filterTypeMenu);
     
     for(int i = 0; i < 6; i++)
-        filterTypeMenu.addItem(filterTypes[i], i);
+        filterTypeMenu.addItem(p.filterTypes[i], i+1);
     
     filterTypeMenu.onChange = [this] { modeMenuChanged(); };
-    filterTypeMenu.setSelectedId (0);
+    filterTypeMenu.setSelectedId (1);
     
     labelFilterType.attachToComponent(&filterTypeMenu, false);
     labelFilterType.setFont(textFont);
@@ -61,7 +61,7 @@ LadderFilterBasicAudioProcessorEditor::LadderFilterBasicAudioProcessorEditor (La
     
     sliderAttachmentDrive = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DRIVE", sliderDrive);
     
-    comboAttachmentFilterType = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "TYPE", comboAttachmentFilterType);
+    comboAttachmentFilterType = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "TYPE", filterTypeMenu);
 
 }
 
@@ -84,14 +84,36 @@ void LadderFilterBasicAudioProcessorEditor::resized()
     sliderCutoff.setBounds(getWidth()/2-150, getHeight()/2, 75, 200);
     sliderReson.setBounds(getWidth()/2-50, getHeight()/2, 75, 200);
     sliderDrive.setBounds(getWidth()/2+50, getHeight()/2, 75, 200);
-    filterTypeMenu.setBounds(getWidth()/2, getHeight() - 100, 75, 200);
+    filterTypeMenu.setBounds(getWidth()/2 - 75, getHeight() - 350, 100, 25);
 }
 
 void LadderFilterBasicAudioProcessorEditor::modeMenuChanged()
 {
-    /*switch (filterTypeMenu.getSelectedId())
+    //{"LPF12", "HPF12", "BPF12", "LPF24", "HPF24", "BPF24"}
+    switch (filterTypeMenu.getSelectedId())
     {
-        
+        case 1:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::LPF12;
+            break;
+        case 2:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::HPF12;
+            break;
+        case 3:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::BPF12;
+            break;
+        case 4:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::LPF24;
+            break;
+        case 5:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::HPF24;
+            break;
+        case 6:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::BPF24;
+            break;
+            
+        default:
+            audioProcessor.filterMode = juce::dsp::LadderFilterMode::LPF12;
+            break;
     }
-*/
+
 }

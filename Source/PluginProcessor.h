@@ -62,7 +62,9 @@ public:
     float cutoffFreq;
     float res;
     float drive;
-    
+    juce::dsp::LadderFilterMode filterMode;
+    std::string filterTypes[6] = {"LPF12", "HPF12", "BPF12", "LPF24", "HPF24", "BPF24"};
+
 private:
     juce::dsp::LadderFilter<float> Filter;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); //Setup for APVTS

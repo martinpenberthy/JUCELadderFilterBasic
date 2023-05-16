@@ -27,7 +27,6 @@ public:
     
     void modeMenuChanged();
     
-    std::string filterTypes[6] = {"LPF12", "HPF12", "BPF12", "LPF24", "HPF24", "BPF24"};
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -47,7 +46,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentCutoff;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentReson;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachmentDrive;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>     ;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> comboAttachmentFilterType;
         
     LadderFilterBasicAudioProcessor& audioProcessor;
 

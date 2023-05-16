@@ -99,6 +99,8 @@ void LadderFilterBasicAudioProcessor::prepareToPlay (double sampleRate, int samp
     cutoffFreq = apvts.getRawParameterValue("CUTOFF")->load();
     res = apvts.getRawParameterValue("RESONANCE")->load();
     drive = apvts.getRawParameterValue("DRIVE")->load();
+    filterMode = juce::dsp::LadderFilterMode::LPF12;
+    
     
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
@@ -107,7 +109,7 @@ void LadderFilterBasicAudioProcessor::prepareToPlay (double sampleRate, int samp
     
     Filter.prepare(spec);
     Filter.setEnabled(true);
-    Filter.setMode(juce::dsp::LadderFilterMode::LPF24);
+    Filter.setMode(filterMode);
     Filter.setCutoffFrequencyHz(cutoffFreq);
     Filter.setResonance(res);
     Filter.setDrive(drive);
@@ -177,6 +179,7 @@ void LadderFilterBasicAudioProcessor::processBlock (juce::AudioBuffer<float>& bu
     if(drive != driveNew)
         Filter.setDrive(driveNew);
     
+    Filter.setMode(filterMode);
     
     Filter.process(juce::dsp::ProcessContextReplacing<float> (block));
 }
@@ -191,7 +194,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout LadderFilterBasicAudioProces
     params.add(std::make_unique<juce::AudioParameterFloat>("RESONANCE", "Resonance", 0.0f, 0.75f, 0.0f));
     params.add(std::make_unique<juce::AudioParameterFloat>("DRIVE", "Drive", 1.0f, 10.0f, 1.0f));
     
-    //params.add(std::make_shared<juce::AudioParameterChoice>("TYPE", "Type", StringArray { "a", "b", "c" }, 0, attributes));
+    
+    //auto attributes = juce::AudioParameterChoiceAttributes().withLabel ("selected");
+    params.add(std::make_unique<juce::AudioParameterChoice>("TYPE", "Type",
+                                                            juce::StringArray {"LPF12", "HPF12", "BPF12", "LPF24", "HPF24", "BPF24"},
+                                                            1));
     
     return params;
 }
